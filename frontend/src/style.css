@@ -5,3 +5,12 @@
 html {
     @apply font-humanist;
 }
+
+html,
+body {
+    min-height: 100vh;
+}
+
+.my-full-width {
+    width: 100%;
+}

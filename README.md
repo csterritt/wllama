@@ -29,4 +29,4 @@ In another terminal to interact with the model. This is fine for small experimen
 but for larger things this contains *another* irritation,
 [which has made it to a pull request!](https://github.com/jmorganca/ollama/pull/416)
 which sets it up to do a prompt *per line* instead of per (say) paragraph. So if you
-want to create a big prompt, it's gotta be on one line.
+want to create a big prompt, it's got to be on one line. *Look out, yak*.

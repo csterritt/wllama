@@ -1,7 +1,9 @@
 <template>
-  <entry-pane></entry-pane>
-  <div class="divider"></div>
-  <results-pane></results-pane>
+  <div class="flex flex-col flex-grow min-w-full">
+    <entry-pane></entry-pane>
+    <div class="divider"></div>
+    <results-pane></results-pane>
+  </div>
 </template>
 
 <script setup>
