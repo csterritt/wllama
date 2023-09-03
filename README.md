@@ -1,19 +1,9 @@
-# README
+### wllama
 
-## About
+This is an alternate front-end for the [ollama](https://ollama.ai) command line tools.
+This is pretty much [yak shaving](https://en.wiktionary.org/wiki/yak_shaving)
+but hey it's another chance to use the wonderful [Wails](https://wails.io)
+application development library.
 
-This is the official Wails Vue template.
-
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
-
-## Live Development
-
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
-
-## Building
-
-To build a redistributable, production mode package, use `wails build`.
+The main idea with `ollama` is that it runs locally, without having to hit the
+internet. This is why this is an actual application, rather than a web front end.
