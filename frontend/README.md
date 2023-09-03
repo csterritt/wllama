@@ -1,8 +1,9 @@
-# Vue 3 + Vite
+### wllama
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs,
-check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is an alternate front-end for the [ollama](https://ollama.ai) command line tools.
+This is pretty much [yak shaving](https://en.wiktionary.org/wiki/yak_shaving)
+but hey it's another chance to use the wonderful [Wails](https://wails.io)
+application development library.
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+The main idea with `ollama` is that it runs locally, without having to hit the
+internet. This is why this is an actual application, rather than a web front end.
