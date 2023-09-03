@@ -1,4 +1,4 @@
-module changeme
+module wllama
 
 go 1.18
 
