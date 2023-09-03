@@ -5,6 +5,16 @@ This is pretty much [yak shaving](https://en.wiktionary.org/wiki/yak_shaving)
 but hey it's another chance to use the wonderful [Wails](https://wails.io)
 application development library.
 
+#### Installation and development
+
+You must have [Go](https://go.dev) installed. Once that's set up, you should follow
+the [Wails installation instructions](https://wails.io/docs/gettingstarted/installation)
+to set that up. Then run:
+
+    ./go
+
+#### Problems with ollama
+
 The main idea with `ollama` is that it runs locally, without having to hit the
 internet. This is why this is an actual application, rather than a web front end.
 
