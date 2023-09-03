@@ -1,7 +1,7 @@
 <template>
-  <HelloWorld />
+  <pane-container></pane-container>
 </template>
 
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import PaneContainer from './components/PaneContainer.vue'
 </script>
