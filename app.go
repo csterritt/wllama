@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"strings"
 )
 
 // App struct
@@ -21,7 +21,15 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+// PromptForResponse returns the result for running the given prompt
+func (a *App) PromptForResponse(prompt string) string {
+	chars := strings.Split(prompt, "")
+	chLen := len(chars)
+	newChars := make([]string, chLen)
+	for i := 0; i < chLen; i += 1 {
+		j := chLen - 1 - i
+		newChars[i] = chars[j]
+	}
+
+	return strings.Join(newChars, "")
 }

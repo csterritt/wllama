@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "daisyui": "^3.6.4",
+    "pinia": "^2.1.6",
     "vue": "^3.2.37"
   },
   "devDependencies": {
