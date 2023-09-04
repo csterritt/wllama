@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-grow min-w-full">
+  <div :class="store.resultsPaneGrowClass">
     <div class="font-monocode">
       <div>Results Pane</div>
 
