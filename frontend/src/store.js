@@ -17,17 +17,17 @@ export const useStore = defineStore('store', () => {
 
   const entryPaneGrowClass = computed(() => {
     if (paneState.value !== constants.MOSTLY_BOTTOM_PANE_STATE) {
-      return 'flex-grow min-w-full'
+      return constants.EXPAND_CLASSES
     } else {
-      return 'min-w-full'
+      return constants.NO_EXPAND_CLASSES
     }
   })
 
   const resultsPaneGrowClass = computed(() => {
     if (paneState.value !== constants.MOSTLY_TOP_PANE_STATE) {
-      return 'flex-grow min-w-full'
+      return constants.EXPAND_CLASSES
     } else {
-      return 'min-w-full'
+      return constants.NO_EXPAND_CLASSES
     }
   })
 
