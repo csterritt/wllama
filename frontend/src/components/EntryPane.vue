@@ -14,7 +14,17 @@
           </textarea>
         </div>
 
-        <button class="btn btn-primary" @click="sendOut">Send</button>
+        <div class="flex flex-col justify-between">
+          <button class="btn btn-primary" @click="sendOut">Send</button>
+
+          <button class="btn btn-primary" @click="copyText">
+            Copy Results
+          </button>
+
+          <button class="btn btn-ghost" @click="clearText">
+            Clear Results
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -27,5 +37,13 @@ const store = useStore()
 
 const sendOut = () => {
   store.sendPrompt()
+}
+
+const copyText = () => {
+  console.log(`Entered copyText`)
+}
+
+const clearText = () => {
+  store.results = ''
 }
 </script>
