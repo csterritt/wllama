@@ -33,8 +33,6 @@ export const useStore = defineStore('store', () => {
 
   const togglePaneState = () => {
     if (paneState.value === constants.EQUAL_PANE_STATE) {
-      paneState.value = constants.MOSTLY_TOP_PANE_STATE
-    } else if (paneState.value === constants.MOSTLY_TOP_PANE_STATE) {
       paneState.value = constants.MOSTLY_BOTTOM_PANE_STATE
     } else if (paneState.value === constants.MOSTLY_BOTTOM_PANE_STATE) {
       paneState.value = constants.EQUAL_PANE_STATE

@@ -3,11 +3,11 @@
     <div>Text Entry Pane</div>
 
     <div class="flex flex-col flex-grow">
-      <div class="flex flex-row flex-grow">
-        <div class="flex flex-col flex-grow">
+      <div class="flex flex-row flex-grow justify-between">
+        <div class="w-full mr-4 mb-4">
           <textarea
             placeholder="Type here"
-            class="input input-bordered flex-grow mr-4 mb-4"
+            class="input input-bordered w-full h-full"
             v-model="store.prompt"
             @keyup.enter="sendOut"
           >

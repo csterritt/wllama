@@ -1,11 +1,9 @@
 <template>
-  <div class="flex flex-col flex-grow min-w-full">
-    <entry-pane></entry-pane>
+  <entry-pane></entry-pane>
 
-    <toggle-pane></toggle-pane>
+  <toggle-pane></toggle-pane>
 
-    <results-pane></results-pane>
-  </div>
+  <results-pane></results-pane>
 </template>
 
 <script setup>

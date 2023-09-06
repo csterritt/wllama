@@ -7,6 +7,11 @@ html {
 }
 
 html,
+html:root,
 body {
-    @apply min-h-full;
+    @apply bg-base-200;
+}
+
+.min-h-50 {
+    min-height: 50vh;
 }
