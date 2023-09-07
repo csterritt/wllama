@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"strings"
+	"io"
+	"os/exec"
 )
 
 // App struct
@@ -15,7 +16,7 @@ func NewApp() *App {
 	return &App{}
 }
 
-// startup is called when the app starts. The context is saved
+// startup is called when the app starts. The context is saved,
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
@@ -23,13 +24,36 @@ func (a *App) startup(ctx context.Context) {
 
 // PromptForResponse returns the result for running the given prompt
 func (a *App) PromptForResponse(prompt string) string {
-	chars := strings.Split(prompt, "")
-	chLen := len(chars)
-	newChars := make([]string, chLen)
-	for i := 0; i < chLen; i += 1 {
-		j := chLen - 1 - i
-		newChars[i] = chars[j]
+	cmd := exec.Command("/usr/bin/tr", "a-z", "A-Z")
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return "cmd setup failed with error " + err.Error()
 	}
 
-	return strings.Join(newChars, "")
+	stdin, _ := cmd.StdinPipe()
+	_, err = stdin.Write([]byte(prompt + "\n"))
+	if err != nil {
+		return "stdin.Write failed with error " + err.Error()
+	}
+
+	err = stdin.Close()
+	if err != nil {
+		return "stdin.Close failed with error " + err.Error()
+	}
+
+	err = cmd.Start()
+	if err != nil {
+		return "cmd.Start failed with error " + err.Error()
+	}
+
+	data, err := io.ReadAll(stdout)
+	if err != nil {
+		return "ReadAll failed with error " + err.Error()
+	}
+
+	if err := cmd.Wait(); err != nil {
+		return "cmd Wait failed with error " + err.Error()
+	}
+
+	return string(data)
 }
