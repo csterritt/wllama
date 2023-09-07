@@ -24,7 +24,7 @@ func (a *App) startup(ctx context.Context) {
 
 // PromptForResponse returns the result for running the given prompt
 func (a *App) PromptForResponse(prompt string) string {
-	cmd := exec.Command("/usr/bin/tr", "a-z", "A-Z")
+	cmd := exec.Command("/opt/homebrew/bin/ollama", "run", "codellama:7b-instruct")
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return "cmd setup failed with error " + err.Error()
