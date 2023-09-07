@@ -2,7 +2,11 @@
   <div>Results Pane</div>
 
   <div class="font-monocode">
-    {{ store.results }}
+    <span v-if="store.waiting" class="italic"> Waiting for results... </span>
+
+    <span v-else>
+      {{ store.results }}
+    </span>
   </div>
 </template>
 

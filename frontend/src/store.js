@@ -8,10 +8,13 @@ export const useStore = defineStore('store', () => {
   const paneState = ref(constants.EQUAL_PANE_STATE)
   const prompt = ref('')
   const results = ref('')
+  const waiting = ref(false)
 
   const sendPrompt = async () => {
     if (prompt.value.trim() !== '') {
+      waiting.value = true
       results.value = await PromptForResponse(prompt.value.trim())
+      waiting.value = false
     }
   }
 
@@ -47,5 +50,6 @@ export const useStore = defineStore('store', () => {
     resultsPaneGrowClass,
     sendPrompt,
     togglePaneState,
+    waiting,
   }
 })
