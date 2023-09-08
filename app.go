@@ -4,7 +4,35 @@ import (
 	"context"
 	"io"
 	"os/exec"
+	"strings"
+
+	"github.com/microcosm-cc/bluemonday"
 )
+
+var policy *bluemonday.Policy
+
+func init() {
+	policy = bluemonday.UGCPolicy()
+}
+
+func convertToHtml(output string) string {
+	allLines := strings.Split(output, "\n")
+	lines := make([]string, 0)
+	for _, s := range allLines {
+		t := strings.Trim(s, " ")
+		if len(t) > 0 {
+			lines = append(lines, t)
+		}
+	}
+
+	// The policy can then be used to sanitize lots of input and it is safe to use the policy in multiple goroutines
+	result := "<div>" + strings.Join(lines, "</div><div>") + "</div>"
+	result = policy.Sanitize(
+		result,
+	)
+
+	return result
+}
 
 // App struct
 type App struct {
@@ -31,7 +59,8 @@ func (a *App) PromptForResponse(prompt string) string {
 	}
 
 	stdin, _ := cmd.StdinPipe()
-	_, err = stdin.Write([]byte(prompt + "\n"))
+	oneLinePrompt := strings.Join(strings.Split(prompt, "\n"), " ")
+	_, err = stdin.Write([]byte(oneLinePrompt + "\n"))
 	if err != nil {
 		return "stdin.Write failed with error " + err.Error()
 	}
@@ -55,5 +84,5 @@ func (a *App) PromptForResponse(prompt string) string {
 		return "cmd Wait failed with error " + err.Error()
 	}
 
-	return string(data)
+	return convertToHtml(string(data))
 }

@@ -4,9 +4,7 @@
   <div class="font-monocode">
     <span v-if="store.waiting" class="italic"> Waiting for results... </span>
 
-    <span v-else>
-      {{ store.results }}
-    </span>
+    <span v-else v-html="store.results"> </span>
   </div>
 </template>
 

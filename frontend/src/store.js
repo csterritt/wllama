@@ -13,12 +13,7 @@ export const useStore = defineStore('store', () => {
   const sendPrompt = async () => {
     if (prompt.value.trim() !== '') {
       waiting.value = true
-      let output = await PromptForResponse(prompt.value.trim())
-      output = output.split(/[\r\n]+/)
-      output.shift()
-      output.pop()
-      output = output.map((str) => `<div>${str}</div>`).join('\n')
-      results.value = output
+      results.value = await PromptForResponse(prompt.value.trim())
       waiting.value = false
     }
   }
