@@ -13,7 +13,11 @@ export const useStore = defineStore('store', () => {
   const sendPrompt = async () => {
     if (prompt.value.trim() !== '') {
       waiting.value = true
-      results.value = await PromptForResponse(prompt.value.trim())
+      results.value = await PromptForResponse(
+        'codellama:7b',
+        prompt.value.trim()
+      )
+
       waiting.value = false
     }
   }

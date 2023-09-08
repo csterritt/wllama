@@ -1,13 +1,29 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"context"
-	"io"
-	"os/exec"
+	"encoding/json"
+	"errors"
+	"net/http"
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
 )
+
+type RequestToOllama struct {
+	Prompt string `json:"prompt"`
+	Model  string `json:"model"`
+}
+
+type ResponsePart struct {
+	Model     string `json:"model"`
+	CreatedAt string `json:"created_at"`
+	Done      bool   `json:"done"`
+	Response  string `json:"response"`
+	Context   []int  `json:"context"`
+}
 
 var policy *bluemonday.Policy
 
@@ -25,7 +41,7 @@ func convertToHtml(output string) string {
 		}
 	}
 
-	// The policy can then be used to sanitize lots of input and it is safe to use the policy in multiple goroutines
+	// The policy can then be used to sanitize lots of input, and it is safe to use the policy in multiple goroutines
 	result := "<div>" + strings.Join(lines, "</div><div>") + "</div>"
 	result = policy.Sanitize(
 		result,
@@ -51,38 +67,64 @@ func (a *App) startup(ctx context.Context) {
 }
 
 // PromptForResponse returns the result for running the given prompt
-func (a *App) PromptForResponse(prompt string) string {
-	cmd := exec.Command("/opt/homebrew/bin/ollama", "run", "codellama:7b-instruct")
-	stdout, err := cmd.StdoutPipe()
+func (a *App) PromptForResponse(model string, prompt string) string {
+	res, err := doPromptForResponse(model, prompt)
 	if err != nil {
-		return "cmd setup failed with error " + err.Error()
+		return "Error caught: " + err.Error()
 	}
 
-	stdin, _ := cmd.StdinPipe()
-	oneLinePrompt := strings.Join(strings.Split(prompt, "\n"), " ")
-	_, err = stdin.Write([]byte(oneLinePrompt + "\n"))
+	return res
+}
+
+func doPromptForResponse(model string, prompt string) (string, error) {
+	url := "http://localhost:11434/api/generate"
+	args := RequestToOllama{
+		Prompt: prompt,
+		Model:  model,
+	}
+
+	jsonData, err := json.Marshal(args)
 	if err != nil {
-		return "stdin.Write failed with error " + err.Error()
+		return "", err
 	}
 
-	err = stdin.Close()
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return "stdin.Close failed with error " + err.Error()
+		return "", err
 	}
 
-	err = cmd.Start()
+	request.Header.Set("Content-Type", "application/ndjson; charset=UTF-8")
+
+	client := &http.Client{}
+	response, err := client.Do(request)
 	if err != nil {
-		return "cmd.Start failed with error " + err.Error()
+		return "", err
 	}
 
-	data, err := io.ReadAll(stdout)
-	if err != nil {
-		return "ReadAll failed with error " + err.Error()
+	defer func() {
+		err = errors.Join(err, response.Body.Close()) // Magic!
+	}()
+
+	reader := bufio.NewReader(response.Body)
+	scanner := bufio.NewScanner(reader)
+	result := ""
+	var lineResponse ResponsePart
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		err = json.Unmarshal([]byte(line), &lineResponse)
+		if err != nil {
+			return "", err
+		}
+
+		if !lineResponse.Done {
+			result = result + lineResponse.Response
+		}
 	}
 
-	if err := cmd.Wait(); err != nil {
-		return "cmd Wait failed with error " + err.Error()
+	if err = scanner.Err(); err != nil {
+		return "", err
 	}
 
-	return convertToHtml(string(data))
+	return convertToHtml(result), nil
 }
