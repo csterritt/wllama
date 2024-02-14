@@ -1,6 +1,6 @@
 ### wllama
 
-This is an alternate front-end for the `[ollama](https://ollama.ai)` command line tools.
+This is an alternate front-end for the [ollama](https://ollama.ai) command line tools.
 This is pretty much [yak shaving](https://en.wiktionary.org/wiki/yak_shaving)
 but hey it's another chance to use the wonderful [Wails](https://wails.io)
 application development library.
@@ -35,8 +35,4 @@ And then run
 
     ollama run codellama:7b-instruct
 
-In another terminal to interact with the model. This is fine for small experiments,
-but for larger things this contains *another* irritation,
-[which has made it to a pull request!](https://github.com/jmorganca/ollama/pull/416)
-which sets it up to do a prompt *per line* instead of per (say) paragraph. So if you
-want to create a big prompt, it's got to be on one line. *Look out, yak*.
+*Look out, yak*.
